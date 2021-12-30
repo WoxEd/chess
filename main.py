@@ -1,13 +1,13 @@
 import pygame
+from random import randint
 
-
-width = 600
-height = 600
+SQUARESIZE = 75
+width = SQUARESIZE * 8
+height = SQUARESIZE * 8
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-CUSTWHITE = (3, 252, 215)
-CUSTBLACK = (252, 198, 3)
-SQUARESIZE = 75
+CUSTWHITE = (135, 62, 35)
+CUSTBLACK = (234, 182, 118)
 
 pawn = 1
 knight = 3
@@ -53,11 +53,11 @@ def drawboard(display):
             startrow = col * SQUARESIZE
             startcol = row * SQUARESIZE
 
+            piece = getimage(board[row][col])
+
             pygame.draw.rect(display, CUSTWHITE if (row + col) % 2 == 0 else CUSTBLACK,
                              [startrow, startcol, SQUARESIZE, SQUARESIZE])
 
-
-            piece = getimage(board[row][col])
             if piece is not None:
                 piecewidth = (startrow + SQUARESIZE / 2) - piece.get_width() / 2
                 pieceheight = (startcol + SQUARESIZE / 2) - piece.get_height() / 2
