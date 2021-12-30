@@ -54,10 +54,10 @@ def main():
                     prevcol = col
                     prevrow = row
                 else:
-                    board[col][row] = lastclick
-                    lastclick = empty
                     if prevcol is not None:
                         board[prevcol][prevrow] = empty
+                    board[col][row] = lastclick
+                    lastclick = empty
 
 
             # Highlights hovered squares when mouse is in game
