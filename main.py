@@ -10,6 +10,7 @@ RED = (255, 0, 0)
 CUSTWHITE = (135, 62, 35)
 CUSTBLACK = (234, 182, 118)
 
+
 pawn = 1
 knight = 3
 bishop = 4
@@ -17,6 +18,9 @@ rook = 5
 queen = 9
 king = 10
 empty = 0
+lastclick = empty
+prevcol = None
+prevrow = None
 
 board = [[-rook, -knight, -bishop, -queen, -king, -bishop, -knight, -rook],
          [-pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn, -pawn],
@@ -29,6 +33,7 @@ board = [[-rook, -knight, -bishop, -queen, -king, -bishop, -knight, -rook],
 
 
 def main():
+    global lastclick
     pygame.init()
     display = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
@@ -44,8 +49,15 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN: # Moves a piece
                 row = int(mousex/SQUARESIZE);
                 col = int(mousey/SQUARESIZE);
-                clickedpiece =  board[col][row]
-                board[col][row] = -clickedpiece; #col and row must be reversed
+                if lastclick is empty:
+                    lastclick = board[col][row]
+                    prevcol = col
+                    prevrow = row
+                else:
+                    board[col][row] = lastclick
+                    lastclick = empty
+                    if prevcol is not None:
+                        board[prevcol][prevrow] = empty
 
 
             # Highlights hovered squares when mouse is in game
