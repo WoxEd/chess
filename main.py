@@ -37,9 +37,26 @@ def main():
 
     while not crashed:
         for event in pygame.event.get():
+            mousex, mousey = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
                 crashed = True
             drawboard(display)
+            if event.type == pygame.MOUSEBUTTONDOWN: # Moves a piece
+                row = int(mousex/SQUARESIZE);
+                col = int(mousey/SQUARESIZE);
+                clickedpiece =  board[col][row]
+                board[col][row] = -clickedpiece; #col and row must be reversed
+
+
+            # Highlights hovered squares when mouse is in game
+            if pygame.mouse.get_focused():
+                pygame.draw.rect(display, RED,
+                                 [int(mousex / SQUARESIZE) * SQUARESIZE, int(mousey / SQUARESIZE) * SQUARESIZE,
+                                  SQUARESIZE,
+                                  SQUARESIZE], 3)
+
+
+
         print(event)
         pygame.display.update()
         clock.tick(60)
@@ -59,11 +76,8 @@ def drawboard(display):
             pygame.draw.rect(display, CUSTWHITE if (row + col) % 2 == 0 else CUSTBLACK,
                              [startrow, startcol, SQUARESIZE, SQUARESIZE])
 
-            # Highlights hovered squares
-            mousex, mousey = pygame.mouse.get_pos()
-            pygame.draw.rect(display, RED,
-                             [int(mousex / SQUARESIZE) * SQUARESIZE, int(mousey / SQUARESIZE) * SQUARESIZE, SQUARESIZE,
-                              SQUARESIZE], 3)
+
+
 
             if piece is not None:
                 piecewidth = (startrow + SQUARESIZE / 2) - piece.get_width() / 2
