@@ -6,6 +6,7 @@ width = SQUARESIZE * 8
 height = SQUARESIZE * 8
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+RED = (255, 0, 0)
 CUSTWHITE = (135, 62, 35)
 CUSTBLACK = (234, 182, 118)
 
@@ -57,6 +58,12 @@ def drawboard(display):
 
             pygame.draw.rect(display, CUSTWHITE if (row + col) % 2 == 0 else CUSTBLACK,
                              [startrow, startcol, SQUARESIZE, SQUARESIZE])
+
+            # Highlights hovered squares
+            mousex, mousey = pygame.mouse.get_pos()
+            pygame.draw.rect(display, RED,
+                             [int(mousex / SQUARESIZE) * SQUARESIZE, int(mousey / SQUARESIZE) * SQUARESIZE, SQUARESIZE,
+                              SQUARESIZE], 3)
 
             if piece is not None:
                 piecewidth = (startrow + SQUARESIZE / 2) - piece.get_width() / 2
